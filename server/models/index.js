@@ -43,10 +43,9 @@ module.exports = {
       token: `${config.app.api}`,
       ruleSet: `${ticker}`,
       type: 'any',
-      ruleName: 'My Rule',
+      ruleName: '52-Week High',
       conditions: [
-        ['changePercent', '>', 0.5],
-        ['latestPrice', '<', 100],
+        ['latestPrice', '>', 399.82],
       ],
       outputs: [
         {
@@ -55,6 +54,7 @@ module.exports = {
           url: 'https://2750660c5c4d.ngrok.io/webhooks',
         },
       ],
+      additionalKeys: ['latestPrice', 'peRatio', 'nextEarningsDate'],
     };
 
     return axios.post('https://cloud.iexapis.com/stable/rules/create', options)

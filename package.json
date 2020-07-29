@@ -46,6 +46,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "request-promise-native": "^1.0.9",
+    "rosaenlg": "^1.16.9",
     "styled-components": "^5.1.1"
   }
 }
