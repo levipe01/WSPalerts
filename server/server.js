@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const router = require('./router/index.js');
 const config = require('../config.js');
-const ngrok = require('ngrok');
 
 const app = express();
 const { port } = config.app;
