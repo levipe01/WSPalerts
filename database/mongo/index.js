@@ -1,25 +1,35 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/bullBear');
+mongoose.connect('mongodb://localhost/stockStories');
 const db = mongoose.connection;
 
-db.on('error', () => console.log('Error connecting to topTracks database...'));
-db.once('open', () => console.log('Connected to topTracks database...'));
+db.on('error', () => console.log('Error connecting to stockStories database...'));
+db.once('open', () => console.log('Connected to stockStories database...'));
 
-const stockSchema = new mongoose.Schema({
-  name: String,
+const storySchema = new mongoose.Schema({
   ticker: String,
-  bull: Boolean,
-  target: Number,
+  story: String,
 });
 
-const Stock = mongoose.model('Stock', stockSchema);
+const Story = mongoose.model('Story', storySchema);
 
-// will take in a stock object
-const addStock = (stock) => {
-  const newStock = new Stock(stock);
+const getTopTracks = (id) => new Promise((resolve, reject) => {
+  Story.find({ artistId: `${id}` })
+    .limit(25)
+    .sort({ playcount: -1 }) // sort by most recent
+    .exec((err, data) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(data);
+    });
+});
+
+// will take in a story object
+const addStory = (story) => {
+  const newStory = new Story(story);
   return new Promise((resolve, reject) => {
-    newStock.save(
+    newStory.save(
       (err, data) => {
         if (err) {
           reject(err);
@@ -30,4 +40,5 @@ const addStock = (stock) => {
   });
 };
 
-module.exports.addStock = addStock;
+module.exports.getTopTracks = getTopTracks;
+module.exports.addStory = addStory;

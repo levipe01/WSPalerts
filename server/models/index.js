@@ -1,41 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable no-console */
-
 const axios = require('axios').default;
 const config = require('../../config.js');
-
-// const Request = require('request-promise-native');
-
-// module.exports = {
-//   addAlert: (ticker) => {
-//     Request({
-//       method: 'POST',
-//       url: 'https://cloud.iexapis.com/stable/rules/create',
-//       json: {
-//         token: `${config.app.api}`,
-//         ruleSet: `${ticker}`,
-//         type: 'any',
-//         ruleName: 'My Rule',
-//         conditions: [
-//           ['changePercent', '>', 0.9],
-//           ['latestPrice', '<', 100],
-//         ],
-//         outputs: [
-//           {
-//             frequency: 60,
-//             method: 'webhook',
-//             url: 'https://2750660c5c4d.ngrok.io/webhooks',
-//           },
-//         ],
-//       },
-//     })
-//       .then((res) => {
-//         console.log('res', res);
-//         return res;
-//       })
-//       .catch((err) => console.log('err', err));
-//   },
-// };
+const mongo = require('../../database/mongo/index.js');
 
 module.exports = {
   addAlert: (ticker) => {
@@ -43,15 +10,15 @@ module.exports = {
       token: `${config.app.api}`,
       ruleSet: `${ticker}`,
       type: 'any',
-      ruleName: '52-Week High',
+      ruleName: '52_week_high',
       conditions: [
-        ['latestPrice', '>', 399.82],
+        ['latestPrice', '>', 309.82],
       ],
       outputs: [
         {
           frequency: 30,
           method: 'webhook',
-          url: 'https://2750660c5c4d.ngrok.io/webhooks',
+          url: 'https://2750660c5c4d.ngrok.io/addStory',
         },
       ],
       additionalKeys: ['latestPrice', 'peRatio', 'nextEarningsDate'],
@@ -61,4 +28,8 @@ module.exports = {
       .then((res) => res)
       .catch((err) => err);
   },
+
+  addStory: (story) => mongo.addStory(story)
+    .then((res) => res)
+    .catch((err) => err),
 };

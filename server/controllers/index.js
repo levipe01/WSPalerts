@@ -14,15 +14,23 @@ module.exports = {
       });
   },
 
-  webhooks: (req, res) => {
+  addStory: (req, res) => {
     const { data } = req.res.req.body;
-    const dataDir = path.join(__dirname, '../templates/52_week_high.pug');
+    const dataDir = path.join(__dirname, `../templates/${data.name}.pug`);
     const story = rosaenlgPug.renderFile(dataDir, {
       language: 'en_US',
       ticker: data.set,
       price: data.data.latestPrice,
     });
-    console.log(story);
-    // res.status(200).json(req);
+    model.addStory({
+      ticker: data.set,
+      story,
+    })
+      .then((results) => {
+        res.status(200).json(results);
+      })
+      .catch(() => {
+        res.status(404).json('Error');
+      });
   },
 };
