@@ -33,7 +33,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
